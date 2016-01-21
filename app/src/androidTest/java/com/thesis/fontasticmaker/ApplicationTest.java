@@ -1,4 +1,4 @@
-package com.dam.profesor.paint;
+package com.thesis.fontasticmaker;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
