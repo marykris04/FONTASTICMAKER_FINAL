@@ -27,7 +27,7 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="com.dam.profesor.paint.MainActivity" />
+                <action android:name="com.thesis.fontasticmaker.MainActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
