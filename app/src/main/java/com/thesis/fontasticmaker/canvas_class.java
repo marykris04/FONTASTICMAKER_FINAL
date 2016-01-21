@@ -12,25 +12,21 @@ import android.view.MotionEvent;
 import android.view.View;
 
 
-public class DrawingView extends View {
+public class canvas_class extends View {
 
-    //Path que utilizaré para ir pintando las lineas
     private Path drawPath;
-    //Paint de dibujar y Paint de Canvas
     private static Paint drawPaint;
     private Paint canvasPaint;
-    //Color Inicial
     private static int paintColor = 0xFF000000;
-    //canvas
+
     private Canvas drawCanvas;
-    //canvas para guardar
     private Bitmap canvasBitmap;
 
     static float TamanyoPunto;
     private static boolean borrado=false;
 
 
-    public DrawingView(Context context, AttributeSet attrs) {
+    public canvas_class(Context context, AttributeSet attrs) {
         super(context, attrs);
         setupDrawing();
     }

@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Drawing Interface</string>
+    <string name="app_name">Fontastic Maker</string>
+    <string name="app_bar_draw">Draw Now</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_home">HomeActivity</string>
 
     <!-- images_contentDescriptions -->
     <string name="mainmenu_title">Title</string>

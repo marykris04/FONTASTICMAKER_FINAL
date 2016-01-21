@@ -5,8 +5,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -20,10 +18,7 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    ImageButton black;
-    ImageButton white;
-
-    private static DrawingView drawingv;
+    private static canvas_class drawingv;
     float psmall;
     float pmedium;
     float plarge;
@@ -33,10 +28,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageButton eraser;
     ImageButton savedraw;
 
+    ImageButton cap_aright;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -44,14 +43,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         newdraw = (ImageButton)findViewById(R.id.newdraw);
         eraser = (ImageButton)findViewById(R.id.eraser);
         savedraw = (ImageButton)findViewById(R.id.savedraw);
+        cap_aright = (ImageButton)findViewById(R.id.a_right);
 
 
         brushsize.setOnClickListener(this);
         newdraw.setOnClickListener(this);
         eraser.setOnClickListener(this);
         savedraw.setOnClickListener(this);
+        cap_aright.setOnClickListener(this);
 
-        drawingv = (DrawingView)findViewById(R.id.drawingv);
+        drawingv = (canvas_class)findViewById(R.id.drawingv);
 
         psmall= 10;
         pmedium= 20;
@@ -87,21 +88,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        String color = null;
-
-
         switch (v.getId()){
+            case R.id.a_right:
+                setContentView(R.layout.content_b);
+                Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+                setSupportActionBar(toolbar);
+                break;
+
             case R.id.brushsize:
                 final Dialog tamanyopunto = new Dialog(this);
                 tamanyopunto.setTitle("Select Brush Size:");
-                tamanyopunto.setContentView(R.layout.tamanyo_punto);
+                tamanyopunto.setContentView(R.layout.sizes);
             //listen for clicks on tamaños de los botones
                 TextView smallBtn = (TextView)tamanyopunto.findViewById(R.id.tSmall);
                 smallBtn.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        DrawingView.setBorrado(false);
-                        DrawingView.setTamanyoPunto(psmall);
+                        canvas_class.setBorrado(false);
+                        canvas_class.setTamanyoPunto(psmall);
 
                         tamanyopunto.dismiss();
                     }
@@ -110,8 +114,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mediumBtn.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        DrawingView.setBorrado(false);
-                        DrawingView.setTamanyoPunto(pmedium);
+                        canvas_class.setBorrado(false);
+                        canvas_class.setTamanyoPunto(pmedium);
 
                         tamanyopunto.dismiss();
                     }
@@ -120,8 +124,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 largeBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        DrawingView.setBorrado(false);
-                        DrawingView.setTamanyoPunto(plarge);
+                        canvas_class.setBorrado(false);
+                        canvas_class.setTamanyoPunto(plarge);
 
                         tamanyopunto.dismiss();
                     }
@@ -135,8 +139,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                 AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
-                newDialog.setTitle("New Drawing?");
-                newDialog.setMessage("another drawing");
+                newDialog.setTitle("Create new?");
+                newDialog.setMessage("Are you sure you want to overwrite your present drawings and create a new one?");
                 newDialog.setPositiveButton("Accept", new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int which){
 
@@ -157,14 +161,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 final Dialog eraserpunto = new Dialog(this);
                 eraserpunto.setTitle("Select Eraser:");
-                eraserpunto.setContentView(R.layout.tamanyo_punto);
+                eraserpunto.setContentView(R.layout.sizes);
                 //listen for clicks on tamaños de los botones
                 TextView smallBtneraser = (TextView)eraserpunto.findViewById(R.id.tSmall);
                 smallBtneraser.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        DrawingView.setBorrado(true);
-                        DrawingView.setTamanyoPunto(psmall);
+                        canvas_class.setBorrado(true);
+                        canvas_class.setTamanyoPunto(psmall);
 
                         eraserpunto.dismiss();
                     }
@@ -173,8 +177,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mediumBtneraser.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        DrawingView.setBorrado(true);
-                        DrawingView.setTamanyoPunto(pmedium);
+                        canvas_class.setBorrado(true);
+                        canvas_class.setTamanyoPunto(pmedium);
 
                         eraserpunto.dismiss();
                     }
@@ -183,8 +187,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 largeBtneraser.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        DrawingView.setBorrado(true);
-                        DrawingView.setTamanyoPunto(plarge);
+                        canvas_class.setBorrado(true);
+                        canvas_class.setTamanyoPunto(plarge);
 
                         eraserpunto.dismiss();
                     }
@@ -208,7 +212,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         String imgSaved = MediaStore.Images.Media.insertImage(
                                 getContentResolver(), drawingv.getDrawingCache(),
                                 UUID.randomUUID().toString()+".png", "drawing");
-                        //Mensaje de todo correcto
                         if(imgSaved!=null){
                             Toast savedToast = Toast.makeText(getApplicationContext(),
                                     "Your drawing was saved in the gallery.", Toast.LENGTH_SHORT);
@@ -232,6 +235,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 salvarDibujo.show();
 
                 break;
+
+
             default:
 
                 break;
