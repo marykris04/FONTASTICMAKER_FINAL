@@ -40,7 +40,7 @@
 
     </LinearLayout>
 
-    <com.dam.profesor.paint.DrawingView
+    <com.thesis.fontasticmaker.DrawingView
         android:layout_width="match_parent"
         android:layout_height="365dp"
         android:id="@+id/drawingv"
